@@ -1,0 +1,23 @@
+{
+  "name": "besepa/besepa",
+  "description": "Besepa php client",
+  "homepage": "https://besepa.com",
+  "license": "MIT",
+  "authors": [
+    {
+      "name":     "Asier Marqués",
+      "email":    "asier@simettric.com",
+      "homepage": "http://simettric.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "nategood/httpful": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Besepa\\Test\\": "tests/",
+      "Besepa\\": "src/"
+    }
+  }
+}
