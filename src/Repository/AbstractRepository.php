@@ -70,6 +70,21 @@ abstract class AbstractRepository {
 
 	}
 
+	function query($query)
+    {
+        $response_json = $this->client->get("/" . $this->getEndpointName() . '?query=' . $query);
+
+        if($response_json !== false){
+
+            $items = array();
+            foreach ($response_json->response as $item){
+                $items[] = $this->mapEntity($item);
+            }
+            return $items;
+
+        }
+    }
+
 	function create(EntityInterface $item)
 	{
 

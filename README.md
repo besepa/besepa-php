@@ -43,3 +43,9 @@ En ocasiones, necesitamos un customer para gestionar un recurso, para indicarlo,
     
     $bank_accounts = $bankAccountRepository->findAll();
     
+### Buscar recursos
+
+Puedes buscar recursos utilizando el método query de cada repositorio
+    
+    $customerRepository = $client->getRepository("Customer");
+    $customerRepository->query('mail@example.com');

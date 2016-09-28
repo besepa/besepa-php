@@ -88,6 +88,63 @@ JSON;
 
 	}
 
+    function testQuery(){
+
+        $json = <<<JSON
+
+{
+  "response": [
+    {
+      "name": "Pancho Villa SLU",
+      "taxid": "B98123232",
+      "reference": "112370",
+      "contact_name": "Pancho Villa",
+      "contact_email": "pvilla@panchovilla.com",
+      "contact_phone": "123456789",
+      "address_street": "Avda. de la Revolución 12",
+      "address_city": "Madrid",
+      "address_postalcode": "28001",
+      "address_state": "Madrid",
+      "address_country": "ES",
+      "status": "ACTIVE",
+      "created_at": "2016-08-24T13:47:19.000+02:00",
+      "id": "cusd53282955ce1f213304c563b026c",
+      "group_ids": [
+        "gro98c1450a23e80c9148d36aeeb64f",
+        "grofaa892fda4478c05fe0ce89fb367"
+      ]
+    }
+  ],
+  "count": 1,
+  "pagination": {
+    "previous": null,
+    "next": null,
+    "current": 1,
+    "per_page": 50,
+    "count": 1,
+    "pages": 1
+  }
+}
+JSON;
+
+
+
+        $this->client->method('get')->willReturn(json_decode($json));
+
+        /**
+         * @var $client Client
+         */
+        $client = $this->client;
+
+        $this->repo->setClient($client);
+
+        $items = $this->repo->query('B98123232');
+
+        $this->assertGreaterThan(0, count($items));
+        $this->assertInstanceOf($this->repo->getEntityName(), $items[0]);
+
+    }
+
 	function testFind(){
 
 		$json = <<<JSON
