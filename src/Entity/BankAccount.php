@@ -15,4 +15,16 @@ class BankAccount implements EntityInterface
 
     public $iban;
 
+    public $bic;
+
+    public $bank_name;
+
+    public $status;
+
+    public $customer_id;
+
+    public $mandate;
+
+    public $created_at;
+
 }
