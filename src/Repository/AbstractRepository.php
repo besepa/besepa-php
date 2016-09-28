@@ -40,10 +40,10 @@ abstract class AbstractRepository {
 		));
 	}
 
-	function findAll()
+	function findAll($page=1)
 	{
 
-        $response_json = $this->client->get("/" . $this->getEndpointName());
+        $response_json = $this->client->get("/" . $this->getEndpointName() . '?page=' . $page);
 
 		if($response_json !== false){
 
@@ -70,9 +70,9 @@ abstract class AbstractRepository {
 
 	}
 
-	function query($query)
+	function query($query, $page=1)
     {
-        $response_json = $this->client->get("/" . $this->getEndpointName() . '?query=' . $query);
+        $response_json = $this->client->get("/" . $this->getEndpointName() . '?query=' . $query . '&page=' . $page);
 
         if($response_json !== false){
 
