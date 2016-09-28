@@ -28,6 +28,21 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase {
 		$this->repo = new CustomerRepository();
 	}
 
+    /*unction testCreateReal()
+    {
+        $client = new Client();
+        $client->init('', '');
+
+        $customer = new Customer();
+        $customer->name = "Test";
+        $customer->reference = "test-".time();
+        $customer->taxid = "7240505N";
+
+        $customer2 = $client->getRepository("Customer")->create($customer);
+
+        $this->assertInstanceOf($this->repo->getEntityName(), $customer2);
+    }*/
+
 	function testFindAll(){
 
 		$json = <<<JSON
@@ -55,10 +70,9 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase {
 }
 JSON;
 
-		$responseMock = new FakeResponse($json, new FakeRequest());
-		$responseMock->code = 200;
 
-		$this->client->method('get')->willReturn($responseMock);
+
+		$this->client->method('get')->willReturn(json_decode($json));
 
 		/**
 		 * @var $client Client
@@ -98,10 +112,8 @@ JSON;
 }
 JSON;
 
-		$responseMock = new FakeResponse($json, new FakeRequest());
-		$responseMock->code = 200;
 
-		$this->client->method('get')->willReturn($responseMock);
+		$this->client->method('get')->willReturn(json_decode($json));
 
 		/**
 		 * @var $client Client
@@ -143,10 +155,8 @@ JSON;
 }
 JSON;
 
-		$responseMock = new FakeResponse($json, new FakeRequest());
-		$responseMock->code = 200;
 
-		$this->client->method('post')->willReturn($responseMock);
+		$this->client->method('post')->willReturn(json_decode($json));
 
 		/**
 		 * @var $client Client
@@ -158,6 +168,7 @@ JSON;
 		$data = new Customer();
 
 		$item = $this->repo->create($data);
+
 
 		$this->assertInstanceOf($this->repo->getEntityName(), $item);
 		$this->assertEquals('cus32887bc363e05d1b40ba2670b11a24b2', $item->id);

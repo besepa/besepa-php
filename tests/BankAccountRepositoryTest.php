@@ -60,10 +60,8 @@ class BankAccountRepositoryTest extends \PHPUnit_Framework_TestCase {
 }
 JSON;
 
-		$responseMock = new FakeResponse($json, new FakeRequest());
-		$responseMock->code = 200;
 
-		$this->client->method('get')->willReturn($responseMock);
+		$this->client->method('get')->willReturn(json_decode($json));
 
 		/**
 		 * @var $client Client
@@ -109,10 +107,8 @@ JSON;
 }
 JSON;
 
-		$responseMock = new FakeResponse($json, new FakeRequest());
-		$responseMock->code = 200;
 
-		$this->client->method('get')->willReturn($responseMock);
+		$this->client->method('get')->willReturn(json_decode($json));
 
 		/**
 		 * @var $client Client
@@ -159,10 +155,8 @@ JSON;
 }
 JSON;
 
-		$responseMock = new FakeResponse($json, new FakeRequest());
-		$responseMock->code = 201;
 
-		$this->client->method('post')->willReturn($responseMock);
+		$this->client->method('post')->willReturn(json_decode($json));
 
 		/**
 		 * @var $client Client

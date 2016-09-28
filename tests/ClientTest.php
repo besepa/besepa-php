@@ -17,13 +17,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase {
 		$this->client = new Client();
 	}
 
-	function testCheckConnection(){
+	/**function testCheckConnection(){
 
-		$this->client->init('e80589b88699a6dc522433ab9ecac6d0fb025f3749b8061ab8d8b3bf0f2bb349', 'accb9583273c15f87ae5b764e1e266b');
+		$this->client->init('', '');
 		$response = $this->client->get('/customers');
 
 		$this->assertEquals(200, $response->code);
-	}
+	}**/
 
 	function testGetRepository(){
 

@@ -43,17 +43,16 @@ abstract class AbstractRepository {
 	function findAll()
 	{
 
-		$response = $this->client->get("/" . $this->getEndpointName());
-		if($response->code == 200){
-			if(isset($response->body->response)){
+        $response_json = $this->client->get("/" . $this->getEndpointName());
 
-				$items = array();
-				foreach ($response->body->response as $item){
-					$items[] = $this->mapEntity($item);
-				}
-				return $items;
+		if($response_json !== false){
 
-			}
+            $items = array();
+            foreach ($response_json->response as $item){
+                $items[] = $this->mapEntity($item);
+            }
+            return $items;
+
 		}
 
 	}
@@ -61,13 +60,12 @@ abstract class AbstractRepository {
 	function find($id)
 	{
 
-		$response = $this->client->get("/" . $this->getEndpointName() . "/" . (int) $id);
-		if($response->code == 200){
-			if(isset($response->body->response)){
+        $response_json = $this->client->get("/" . $this->getEndpointName() . "/" . (int) $id);
 
-				return $this->mapEntity($response->body->response);
+		if($response_json !== false && isset($response_json->response)){
 
-			}
+            return $this->mapEntity($response_json->response);
+
 		}
 
 	}
@@ -75,13 +73,11 @@ abstract class AbstractRepository {
 	function create(EntityInterface $item)
 	{
 
-		$response = $this->client->post("/" . $this->getEndpointName(), $item, $this->getResourceName());
-		if($response->code == 200 || $response->code == 201){
-			if(isset($response->body->response)){
+		$response_json = $this->client->post("/" . $this->getEndpointName(), $item, $this->getResourceName());
 
-				return $this->mapEntity($response->body->response);
+        if($response_json !== false && isset($response_json->response)){
 
-			}
+            return $this->mapEntity($response_json->response);
 		}
 
 	}

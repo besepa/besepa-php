@@ -62,21 +62,40 @@ class Client {
 
 	function get($path) {
 
-		return Request::get(static::API_URL . $path)
-			->expects(Mime::JSON)
-			->addHeader('Authorization', 'Bearer ' . $this->key)
-			->send();
+        $ch = $this->createCurlSession(static::API_URL . $path);
+
+        $body = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $body? json_decode($body) : false;
 
 	}
 
 	function post($path, EntityInterface $data, $resource_name=null) {
 
-		return Request::post(static::API_URL . $path)
-			          ->body($this->getResourceBody($data, $resource_name, true))
-		              ->expects(Mime::JSON)
-		              ->addHeader('Authorization', 'Bearer ' . $this->key)
-		              ->send();
+        $ch = $this->createCurlSession(static::API_URL . $path);
+
+        curl_setopt($ch, CURLOPT_POST,           1 );
+        curl_setopt($ch, CURLOPT_POSTFIELDS,     $this->getResourceBody($data, $resource_name, true) );
+
+        $body = curl_exec ($ch);
+
+        curl_close($ch);
+
+        return $body ? json_decode($body) : false;
 
 	}
+
+	private function createCurlSession($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url );
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Bearer ' . $this->key));
+
+        return $ch;
+    }
 
 }
