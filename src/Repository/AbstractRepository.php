@@ -60,7 +60,7 @@ abstract class AbstractRepository {
 	function find($id)
 	{
 
-        $response_json = $this->client->get("/" . $this->getEndpointName() . "/" . (int) $id);
+        $response_json = $this->client->get("/" . $this->getEndpointName() . "/" . $id);
 
 		if($response_json !== false && isset($response_json->response)){
 
