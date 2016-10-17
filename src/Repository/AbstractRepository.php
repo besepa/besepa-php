@@ -74,7 +74,7 @@ abstract class AbstractRepository {
     {
         $response_json = $this->client->get("/" . $this->getEndpointName() . '?query=' . $query . '&page=' . $page);
 
-        if($response_json !== false){
+        if($response_json !== false && isset($response_json->response)){
 
             $items = array();
             foreach ($response_json->response as $item){
