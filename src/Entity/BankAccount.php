@@ -11,6 +11,12 @@ namespace Besepa\Entity;
 class BankAccount implements EntityInterface
 {
 
+    const STATUS_ACTIVE             = "ACTIVE";
+    const STATUS_PENDING_MANDATE    = "PENDING_MANDATE";
+    const STATUS_REPLACED           = "REPLACED";
+    const STATUS_REMOVED            = "REMOVED";
+    const STATUS_CANCELLED          = "CANCELLED";
+
     public $id;
 
     public $iban;
@@ -23,6 +29,9 @@ class BankAccount implements EntityInterface
 
     public $customer_id;
 
+    /**
+     * @var Mandate
+     */
     public $mandate;
 
     public $created_at;
