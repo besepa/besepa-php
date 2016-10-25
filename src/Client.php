@@ -68,6 +68,10 @@ class Client {
 
         curl_close($ch);
 
+        if(strpos($path, "query")){
+            //die(static::API_URL .$path);
+        }
+
         return $body? json_decode($body) : false;
 
 	}

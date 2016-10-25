@@ -72,7 +72,7 @@ abstract class AbstractRepository {
 
 	function query($query, $page=1)
     {
-        $response_json = $this->client->get("/" . $this->getEndpointName() . '?query=' . $query . '&page=' . $page);
+        $response_json = $this->client->get("/" . $this->getEndpointName() . '/search?query=' . $query . '&page=' . $page);
 
         if($response_json !== false && isset($response_json->response)){
 

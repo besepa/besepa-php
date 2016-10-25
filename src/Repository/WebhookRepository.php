@@ -22,4 +22,9 @@ class WebhookRepository extends AbstractRepository {
 		return "Besepa\\Entity\\Webhook";
 	}
 
+	function query($query)
+    {
+        throw new \Exception("Query method not available for " . get_class($this));
+    }
+
 }
