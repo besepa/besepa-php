@@ -5,6 +5,7 @@ namespace Besepa\Repository;
 
 use Besepa\Client;
 use Besepa\Entity\EntityInterface;
+use Besepa\Exception\BesepaCreationResultException;
 
 abstract class AbstractRepository {
 
@@ -26,10 +27,12 @@ abstract class AbstractRepository {
 
 	abstract function getEntityName();
 
+
     function setCustomerId($customer_id)
     {
         $this->customer_id = $customer_id;
     }
+
 
 	function mapEntity($instance) {
 		return unserialize(sprintf(
@@ -40,13 +43,17 @@ abstract class AbstractRepository {
 		));
 	}
 
+    /**
+     * @param int $page
+     * @return array
+     */
 	function findAll($page=1)
 	{
 
         $response_json = $this->client->get("/" . $this->getEndpointName() . '?page=' . $page);
 
-		if($response_json !== false){
-
+		if($response_json !== false && isset($response_json->response))
+		{
             $items = array();
             foreach ($response_json->response as $item){
                 $items[] = $this->mapEntity($item);
@@ -55,8 +62,14 @@ abstract class AbstractRepository {
 
 		}
 
+        return array();
 	}
 
+
+    /**
+     * @param $id
+     * @return EntityInterface|null
+     */
 	function find($id)
 	{
 
@@ -68,8 +81,15 @@ abstract class AbstractRepository {
 
 		}
 
+        return null;
+
 	}
 
+    /**
+     * @param $query
+     * @param int $page
+     * @return array
+     */
 	function query($query, $page=1)
     {
         $response_json = $this->client->get("/" . $this->getEndpointName() . '/search?query=' . $query . '&page=' . $page);
@@ -83,6 +103,8 @@ abstract class AbstractRepository {
             return $items;
 
         }
+
+        return array();
     }
 
 	function create(EntityInterface $item)
@@ -94,6 +116,8 @@ abstract class AbstractRepository {
 
             return $this->mapEntity($response_json->response);
 		}
+
+		throw new BesepaCreationResultException($response_json);
 
 	}
 
