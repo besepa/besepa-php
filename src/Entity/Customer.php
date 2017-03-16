@@ -32,6 +32,12 @@ class Customer implements EntityInterface{
 
     public $created_at;
 
+    /**
+     * @var BankAccount
+     */
+    public $bank_account;
+
+    public $bank_accounts=array();
 
 
 }

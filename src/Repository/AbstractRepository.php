@@ -34,7 +34,8 @@ abstract class AbstractRepository {
     }
 
 
-	function mapEntity($instance) {
+	function mapEntity($instance)
+    {
 		return unserialize(sprintf(
 			'O:%d:"%s"%s',
 			strlen($this->getEntityName()),
@@ -107,6 +108,11 @@ abstract class AbstractRepository {
         return array();
     }
 
+    /**
+     * @param EntityInterface $item
+     * @return mixed
+     * @throws BesepaCreationResultException
+     */
 	function create(EntityInterface $item)
 	{
 

@@ -104,13 +104,14 @@ class Client {
 
         $ch = $this->createCurlSession($this->getUrl() . $path);
 
+
+
         curl_setopt($ch, CURLOPT_POST,           1 );
         curl_setopt($ch, CURLOPT_POSTFIELDS,     $this->getResourceBody($data, $resource_name, true) );
 
         $body   = curl_exec ($ch);
         $status = $this->getStatusCode($ch);
         curl_close($ch);
-
 
         if($status==401)
             throw new BesepaAuthException($this->getUrl());

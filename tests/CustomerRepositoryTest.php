@@ -4,6 +4,7 @@ namespace Besepa\Test;
 
 
 use Besepa\Client;
+use Besepa\Entity\BankAccount;
 use Besepa\Entity\Customer;
 use Besepa\Repository\CustomerRepository;
 
@@ -28,20 +29,34 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase {
 		$this->repo = new CustomerRepository();
 	}
 
-    /*unction testCreateReal()
+    function testCreateBankAccount()
     {
-        $client = new Client();
-        $client->init('', '');
 
-        $customer = new Customer();
-        $customer->name = "Test";
-        $customer->reference = "test-".time();
-        $customer->taxid = "7240505N";
+        $json = <<<JSON
+{"response":{"name":"XXX","taxid":"XXX","reference":"cus20a24e2f958705","contact_name":"XXX","contact_email":"XXX@besepa.com","address_street":"XXX","address_city":"XXX","address_postalcode":"XXX","address_state":"XX","address_country":"XX","status":"ACTIVE","created_at":"2017-03-16T15:44:56.796+01:00","id":"cus20a24e2f958705","bank_accounts":[{"id":"ban577e6e467817a6","iban":"XXX","bic":"XXX","bank_name":"XXX","status":"PENDING_MANDATE","default":false,"created_at":"2017-03-16T15:44:56.000+01:00","mandate":{"id":"man5f4317a5cd1084","status":"PENDING_SIGNATURE","description":"Firmado fuera de BeSEPA.","reference":"man5f4317a5cd1084","mandate_type":"RECURRENT","scheme":"B2B","url":"https://sandboxapp.besepa.com/m/man5f4317a5cd1084","signature_type":"form","used":false,"created_at":"2017-03-16T15:44:56.835+01:00","account_id":"accb9583273c15f87ae5b764e1e266b"}}]}}
+JSON;
 
-        $customer2 = $client->getRepository("Customer")->create($customer);
 
-        $this->assertInstanceOf($this->repo->getEntityName(), $customer2);
-    }*/
+        $this->client->method('post')->willReturn(json_decode($json));
+
+        /**
+         * @var $client Client
+         */
+        $client = $this->client;
+
+        $this->repo->setClient($client);
+
+        /**
+         * @var $item Customer
+         */
+        $item = $this->repo->create(new Customer());
+
+        $this->assertEquals("cus20a24e2f958705", $item->id);
+        $this->assertGreaterThan(0, count($item->bank_accounts));
+        $this->assertTrue($item->bank_accounts[0] instanceof BankAccount);
+        $this->assertEquals("ban577e6e467817a6", $item->bank_accounts[0]->id);
+
+    }
 
 	function testFindAll(){
 
